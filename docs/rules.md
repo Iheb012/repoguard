@@ -39,7 +39,7 @@ This document outlines 10 techniques used by attackers (often associated with th
 
 
 
-| **9** | **`pull_request_target` Workflow Abuse**<br>Hides in: `.github/workflows/*.yml`  | Check for `on: pull_request_target` combined with `actions/checkout@...` that checks out the PR's head SHA (untrusted code). | **high** | This GitHub Actions trigger runs in the context of the base repository with access to secrets. If it checks out attacker code, the attacker can steal secrets or push malicious code.<br>**Advice:** Avoid `pull_request_target` with untrusted code. Use `pull_request` instead, or implement strict code review and sandboxing. |
+| **9** | **`pull_request_target` Workflow Abuse**<br>Hides in: `.github/workflows/*.yml`  | Check for `on: pull_request_target` combined with `actions/checkout@...` that checks out the PR's head SHA (untrusted code). | **High** | This GitHub Actions trigger runs in the context of the base repository with access to secrets. If it checks out attacker code, the attacker can steal secrets or push malicious code.<br>**Advice:** Avoid `pull_request_target` with untrusted code. Use `pull_request` instead, or implement strict code review and sandboxing. |
 
 
 
