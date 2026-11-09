@@ -1,0 +1,13 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558 for the documentation
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "build",
+      "type": "shell",
+      "command": "npm run build",
+      "args": ["--url", "https://example.test/a//b"],  /* a // inside a string */
+      "group": "build",
+    },
+  ]
+}

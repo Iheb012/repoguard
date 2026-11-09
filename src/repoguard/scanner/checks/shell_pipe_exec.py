@@ -11,16 +11,22 @@ DOC_EXTENSIONS = (".md", ".markdown", ".rst", ".txt")
 
 PATTERNS = [
     # bash: curl/wget ... | sh / bash / zsh (optionally with sudo)
-    re.compile(r"\b(curl|wget)\b[^\n|;]*\|\s*(sudo\s+)?(ba|z|da)?sh\b", re.IGNORECASE),
+    re.compile(
+        r"\b(curl|wget)\b[^\n|;]{0,200}\|\s*(sudo\s+)?(ba|z|da)?sh\b",
+        re.IGNORECASE,
+    ),
     # PowerShell: iwr/irm ... | iex
     re.compile(
-        r"\b(iwr|irm|invoke-webrequest|invoke-restmethod)\b[^\n|]*\|\s*(iex|invoke-expression)\b",
+        r"\b(iwr|irm|invoke-webrequest|invoke-restmethod)\b[^\n|]{0,200}\|\s*(iex|invoke-expression)\b",
         re.IGNORECASE,
     ),
     # PowerShell: iex (iwr ...)  or  iex (New-Object Net.WebClient).DownloadString(...)
+    # Single collapsed whitespace class per gap — no adjacent \s quantifiers
+    # that can split the same space run (that caused the iex timeouts).
     re.compile(
-        r"\b(iex|invoke-expression)\b\s*\(?\s*"
-        r"(\(?\s*(iwr|irm|invoke-webrequest|invoke-restmethod)\b|\(?\s*new-object\s+net\.webclient)",
+        r"\b(iex|invoke-expression)\b[\s(]{0,40}"
+        r"(?:[\s(]{0,40}(?:iwr|irm|invoke-webrequest|invoke-restmethod)\b"
+        r"|[\s(]{0,40}new-object\s+net\.webclient)",
         re.IGNORECASE,
     ),
 ]

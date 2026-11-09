@@ -13,7 +13,7 @@ LINE_RULES = [
     (
         "CODE-EVAL-EXEC",
         "low",  # a lone eval is very common and noisy; paired rules will cover the dangerous cases
-        re.compile(r"\b(eval|exec)\s*\("),
+        re.compile(r"(?<![\w.$])(eval|exec)\s*\("),
         "Code that runs text as a program can hide what the project really does.",
         "Read what is being evaluated. Do not run this project until you understand it.",
     ),

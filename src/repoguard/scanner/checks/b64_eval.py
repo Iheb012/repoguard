@@ -8,6 +8,7 @@ from __future__ import annotations
 import re
 
 from repoguard.models import Finding
+from repoguard.scanner.proximity import near
 from repoguard.scanner.registry import rule
 
 RULE_ID = "CODE-B64-EVAL"
@@ -18,7 +19,7 @@ MAX_SNIPPET = 120
 # and Buffer.from(..., 'base64') in single or double quotes.
 DECODE = re.compile(
     r"(?<![A-Za-z0-9])(?:atob|b64decode)\s*\("
-    r"|Buffer\.from\(.*['\"]base64(?:url)?['\"]"
+    r"|Buffer\.from\(.{0,200}['\"]base64(?:url)?['\"]"
 )
 
 # Execution: a bare eval( / exec( / Function( call. The lookbehind rejects method calls and
@@ -44,7 +45,7 @@ def b64_eval(path: str, content: str) -> list[Finding]:
 
     findings: list[Finding] = []
     for n, line in enumerate(lines, start=1):
-        if EXEC.search(line) and any(abs(n - d) <= WINDOW for d in decode_lines):
+        if EXEC.search(line) and near(n, decode_lines, WINDOW):
             findings.append(
                 Finding(
                     rule_id=RULE_ID,

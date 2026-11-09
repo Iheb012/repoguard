@@ -16,3 +16,9 @@ def test_detects_long_blob():
 
 def test_clean_file_has_no_findings():
     assert scan_files([("ok.py", "print('hello')\n")]) == []
+
+
+def test_eval_method_calls_are_not_flagged():
+    # model.eval() (PyTorch), pattern.exec() (JS regex), ast.literal_eval() are not the builtin
+    for code in ("model.eval()\n", "m = pattern.exec(text)\n", "v = ast.literal_eval(s)\n"):
+        assert scan_files([("a.py", code)]) == []

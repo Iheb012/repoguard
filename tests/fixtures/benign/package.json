@@ -1,0 +1,11 @@
+{
+  "name": "benign-demo",
+  "version": "1.0.0",
+  "scripts": {
+    "prepare": "husky",
+    "postinstall": "patch-package",
+    "build": "tsc",
+    "start": "node server.js",
+    "test": "node test.js"
+  }
+}
