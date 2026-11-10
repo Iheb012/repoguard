@@ -19,7 +19,8 @@ This document outlines 10 techniques used by attackers (often associated with th
 
 
 
-| **4** | **Base64 Obfuscation + Eval**<br>Hides in: `.js` files, often disguised as configuration or test data  | Look for long strings decoded via `Buffer.from(..., 'base64')` or `atob()` that are immediately passed to `eval()` or `Function()`. | **Medium** | The actual malicious logic is hidden in a Base64 string to bypass simple string-matching scanners. The `eval` executes the decoded payload.<br>**Advice:** Treat any `eval` or `Function` call with suspicion, especially when paired with encoding/decoding functions. |
+| **4** | **Base64 Obfuscation + Eval**<br>Hides in: `.js` files, often disguised as configuration or test data  | Look for long strings decoded via `Buffer.from(..., 'base64')` or `atob()` that are immediately passed to `eval()` or `Function()`. | **Medium** | The actual malicious logic is hidden in a Base64 string to bypass simple string-matching scanners. The `eval` executes the decoded payload.<br>**Advice:** Treat any `eval` or `Function` call with suspicion, especially when paired with encoding/decoding functions. 
+CODE-B64-EVAL|
 
 
 
